@@ -1,0 +1,21 @@
+# dicwin.vim - Dictionary window
+
+## Usage
+
+  1. Install this plugin into your vim.
+  2. Get dictionary file (gene.txt).
+    * Download from http://www.namazu.org/~tsuchiya/sdic/data/gene.html
+    * Convert it to UTF-8, if you prefer 'encoding=utf-8'
+  3. Put gene95.txt at ~/.vim/dict/ (or ~/vimfiles/dict
+  4. Open a document and set cursor on an english word then type <C-k><C-k>
+
+## Shortcuts
+
+  * <C-k><C-k>  Search word under cursor.
+  * <C-k>/      Search prompted word.
+  * <C-k>c      Close dictionary window.
+  * <C-k>n      Search next. (with last word)
+  * <C-k>p      Search previous. (with last word)
+  * <C-k>w      Jump to dictionary window (if exists)
+
+<!-- vim:set ts=8 sts=2 sw=2 tw=0 et: -->
