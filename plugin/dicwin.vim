@@ -3,7 +3,7 @@
 " dicwin.vim - Dictionary window
 "
 " Maintainer:	MURAOKA Taro <koron.kaoriya@gmail.com>
-" Last Change:	30-Apr-2012.
+" Last Change:	01-May-2012.
 " Commands:	<C-k><C-k>  Search word under cursor.
 "		<C-k>/	    Search prompted word.
 "		<C-k>c	    Close dictionary window.
@@ -22,20 +22,38 @@ if exists('plugin_dicwin_disable')
 endif
 let s:myname = expand('<sfile>:t:r')
 
-" Search default dictionary
-if !exists('g:dicwin_dictpath')
-  let s:dict = 'gene.txt'
-  let g:dicwin_dictpath = globpath(&rtp, 'dict/'.s:dict)
-  if g:dicwin_dictpath == ''
-    let g:dicwin_dictpath = globpath(&rtp, s:dict)
-  endif
-  unlet s:dict
-endif
-" Windows return '\\' as directory separator in globpath(), replace it.
-let g:dicwin_dictpath = substitute(g:dicwin_dictpath, '\\', '/', 'g')
-
 let s:lastword = ''
 let s:lastpattern = ''
+
+function! s:DicwinOnload()
+  call s:DetermineDictpath()
+  if filereadable(g:dicwin_dictpath)
+    call s:SetupKeymap()
+  endif
+endfunction
+
+function! s:DetermineDictpath()
+  " Search default dictionary
+  if !exists('g:dicwin_dictpath')
+    let s:dict = 'gene.txt'
+    let g:dicwin_dictpath = s:GlobPath(&rtp, 'dict/'.s:dict)
+    if g:dicwin_dictpath == ''
+      let g:dicwin_dictpath = s:GlobPath(&rtp, s:dict)
+    endif
+    unlet s:dict
+  endif
+  " Windows return '\\' as directory separator in globpath(), replace it.
+  "let g:dicwin_dictpath = substitute(g:dicwin_dictpath, '\\', '/', 'g')
+endfunction
+
+function! s:GlobPath(paths, target)
+  let list = split(globpath(a:paths, a:target), "\n")
+  if len(list) <= 0
+    return ''
+  else
+    return list[0]
+  end
+endfunction
 
 " Kemaps
 function! s:SetupKeymap()
@@ -264,6 +282,4 @@ function! s:PrevWindowRevert()
   endif
 endfunction
 
-if filereadable(g:dicwin_dictpath)
-  call s:SetupKeymap()
-endif
+call s:DicwinOnload()
