@@ -11,7 +11,7 @@
 
 ## Shortcuts
 
-  * <C-k><C-k>  Search word under cursor.
+  * !<C-k>!<C-k>  Search word under cursor.
   * <C-k>/      Search prompted word.
   * <C-k>c      Close dictionary window.
   * <C-k>n      Search next. (with last word)
