@@ -18,6 +18,9 @@
   * `<C-k>p`      Search previous. (with last word)
   * `<C-k>w`      Jump to dictionary window (if exists)
 
+If you set `g:mapleader`, it works with `<leader><C-K>` and others with the
+mapleader. Or if you set `g:dicwin_mapleader` instead, it works with that. 
+
 # OTHERS
 
 ## UNDER UTF-8/UTF-8環境での利用 (only Japanese)

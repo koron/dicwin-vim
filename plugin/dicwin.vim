@@ -3,7 +3,7 @@
 " dicwin.vim - Dictionary window
 "
 " Maintainer:	MURAOKA Taro <koron.kaoriya@gmail.com>
-" Last Change:	01-May-2012.
+" Last Change:	06-Aug-2013.
 " Commands:	<C-k><C-k>  Search word under cursor.
 "		<C-k>/	    Search prompted word.
 "		<C-k>c	    Close dictionary window.
@@ -57,10 +57,11 @@ endfunction
 
 " Kemaps
 function! s:SetupKeymap()
-  let s:use_mapleader = 0
-  if !exists('g:mapleader')
+  let have_mapleader = exists('g:mapleader')
+  if exists('g:dicwin_mapleader')
+    let g:mapleader = g:dicwin_mapleader
+  elseif !have_mapleader
     let g:mapleader = "\<C-k>"
-    let s:use_mapleader = 1
   endif
   nnoremap <silent> <Leader>k :call <SID>OpenDictionary(g:dicwin_dictpath, expand('<cword>'))<CR>
   nnoremap <silent> <Leader>n :call <SID>Search(g:dicwin_dictpath, 0)<CR>
@@ -72,8 +73,7 @@ function! s:SetupKeymap()
   nnoremap <silent> <Leader><C-n> :call <SID>Search(g:dicwin_dictpath, 0)<CR>
   nnoremap <silent> <Leader><C-p> :call <SID>Search(g:dicwin_dictpath, 1)<CR>
   nnoremap <silent> <Leader><C-w> :call <SID>GoDictWindow()<CR>
-  if s:use_mapleader > 0
-    unlet s:use_mapleader
+  if !have_mapleader
     unlet g:mapleader
   endif
 endfunction
