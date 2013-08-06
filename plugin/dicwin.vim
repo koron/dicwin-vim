@@ -57,12 +57,20 @@ endfunction
 
 " Kemaps
 function! s:SetupKeymap()
-  let have_mapleader = exists('g:mapleader')
+  " Evacuate g:mapleader.
+  if exists('g:mapleader')
+    let have_mapleader = 1
+    let save_mapleader = g:mapleader
+  else
+    let have_mapleader = 0
+  end
+  " Change g:mapleader
   if exists('g:dicwin_mapleader')
     let g:mapleader = g:dicwin_mapleader
   elseif !have_mapleader
     let g:mapleader = "\<C-k>"
   endif
+  " Make mappings
   nnoremap <silent> <Leader>k :call <SID>OpenDictionary(g:dicwin_dictpath, expand('<cword>'))<CR>
   nnoremap <silent> <Leader>n :call <SID>Search(g:dicwin_dictpath, 0)<CR>
   nnoremap <silent> <Leader>p :call <SID>Search(g:dicwin_dictpath, 1)<CR>
@@ -73,7 +81,10 @@ function! s:SetupKeymap()
   nnoremap <silent> <Leader><C-n> :call <SID>Search(g:dicwin_dictpath, 0)<CR>
   nnoremap <silent> <Leader><C-p> :call <SID>Search(g:dicwin_dictpath, 1)<CR>
   nnoremap <silent> <Leader><C-w> :call <SID>GoDictWindow()<CR>
-  if !have_mapleader
+  " Revert g:mapleader
+  if have_mapleader
+    let g:mapleader = save_mapleader
+  else
     unlet g:mapleader
   endif
 endfunction
